@@ -12,12 +12,12 @@ plugins {
 }
 
 kotlin {
-    /*androidTarget {
+    androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
-    }*/
+    }
     
     listOf(
         iosX64(),
@@ -76,7 +76,7 @@ kotlin {
         }
     }
 }
-/*
+
 android {
     namespace = "de.cypdashuhn.mtgmanager"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -103,8 +103,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-*/
+
 dependencies {
+    implementation(project(mapOf("path" to ":shared")))
+    implementation(project(mapOf("path" to ":shared")))
     debugImplementation(compose.uiTooling)
 }
 
