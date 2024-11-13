@@ -14,8 +14,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import de.cypdashuhn.mtgmanager.CardReader
 
-data class InventoryItem(val id: Int, val name: String, val quantity: Int)
-
 @Composable
 fun inventoryView() {
     val items = remember {

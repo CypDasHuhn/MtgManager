@@ -121,7 +121,7 @@ object RarityTable : IntIdTable("Rarity") {
 }
 
 object EditionsTable : IntIdTable("Editions") {
-    val code = varchar("code", 3)
+    val code = varchar("code", 7)
     val name = varchar("name", 50)
     val releasedAt = date("released_at")
     val setId = uuid("set_id")
@@ -231,8 +231,6 @@ object FormatLegalityTable : Table("FormatLegality") {
     val combinationId = integer("combinationId")
     val format = reference("formatId", FormatTable)
     val legalityStatus = reference("legalityStatusId", LegalityStatusTable)
-
-    override val primaryKey = PrimaryKey(combinationId)
 }
 
 object FormatTable : IntIdTable("Formats") {

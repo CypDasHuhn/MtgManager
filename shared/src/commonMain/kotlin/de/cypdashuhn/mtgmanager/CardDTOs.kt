@@ -83,7 +83,7 @@ data class Card(
     val loyalty: Int? = null,
     @SerialName("printed_name") val printedName: String? = null,
     val defense: Int? = null,
-    @SerialName("color_indicator") val colorIndicator: List<String>? = null,
+    @SerialName("color_indicator") val colorIndicator: List<Char>? = null,
     @SerialName("flavor_name") val flavorName: String? = null,
     @SerialName("tcgplayer_etched_id") val tcgplayerEtchedId: String? = null,
 )
