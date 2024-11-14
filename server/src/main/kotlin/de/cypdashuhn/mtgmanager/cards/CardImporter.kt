@@ -90,6 +90,10 @@ object CardImporter {
         }
     }
 
+    fun getOrSetIndirectCombinationId(): EntityID<Int> {
+
+    }
+
     fun formatLegalityId(legalities: Legalities): Int {
         return transaction {
             val legalityIds = legalities::class.members.map { property ->
@@ -222,7 +226,15 @@ object CardImporter {
 
             val editionId = CardEditionTable.insertAndGetId {
                 it[baseCard] = baseId
-                it[set]
+                it[set] = getOrSetSet(card)
+
+                requireNotNull(card.foil) { "Card has no foil info" }
+                it[canFoil] = card.foil!!
+
+                requireNotNull(card.nonfoil) { "Card has no non-foil info" }
+                it[canNonFoil] = card.nonfoil!!
+
+                getOrSetCombinationId(FinishCombinations.combinationId)
             }
 
         }
@@ -231,7 +243,8 @@ object CardImporter {
     fun getOrSetSet(card: Card): EntityID<Int> {
         transaction {
             requireNotNull(card.setId) { "Card has no Set id" }
-            val entry = EditionsTable.select { EditionsTable.setId eq UUID.fromString(card.setId!!) }.firstOrNull()
+            val setId = UUID.fromString(card.setId!!)
+            val entry = EditionsTable.select { EditionsTable.setId eq setId }.firstOrNull()
             if (entry != null) {
                 return@transaction entry[EditionsTable.id]
             } else {
@@ -239,7 +252,16 @@ object CardImporter {
                     requireNotNull(card.set) { "Card has no set code" }
                     it[code] = card.set!!
 
-                    requireNotNull(card.name)
+                    requireNotNull(card.setName) { "Card has no Set name" }
+                    it[name] = card.setName!!
+
+                    requireNotNull(card.releasedAt) { "Card has no Release date" }
+                    it[releasedAt] = card.releasedAt!! // TODO: Date parsing
+
+                    it[EditionsTable.setId] = setId
+
+                    requireNotNull(card.setType) { "Card has no set type" }
+                    it[setType] = card.setType!!
                 }
                 return@transaction id
             }

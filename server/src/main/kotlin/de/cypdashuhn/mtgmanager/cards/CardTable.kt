@@ -43,7 +43,8 @@ object ManaCostTable : IntIdTable("ManaCost") {
 object CardEditionTable : IntIdTable("CardEdition") {
     val baseCard = reference("baseCardId", BaseCardTable) // Creates a foreign key to BaseCardTable
     val set = reference("setId", EditionsTable)
-    val foilable = bool("foilable")
+    val canFoil = bool("canFoil")
+    val canNonFoil = bool("canNonFoil")
     val finishesId = integer("finishesId").references(FinishCombinations.combinationId)
     val promo = bool("promo")
     val reprint = bool("reprint")
