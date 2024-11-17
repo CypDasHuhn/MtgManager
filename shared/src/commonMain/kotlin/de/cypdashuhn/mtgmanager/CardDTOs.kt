@@ -48,7 +48,7 @@ data class Card(
     @SerialName("scryfall_set_uri") val scryfallSetUri: String? = null,
     @SerialName("rulings_uri") val rulingsUri: String? = null,
     @SerialName("prints_search_uri") val printsSearchUri: String? = null,
-    @SerialName("collector_number") val collectorNumber: String? = null,
+    @SerialName("collector_number") val collectorNumber: Int? = null,
     val digital: Boolean? = null,
     val rarity: String? = null,
     @SerialName("card_back_id") val cardBackId: String? = null,
@@ -86,6 +86,8 @@ data class Card(
     @SerialName("color_indicator") val colorIndicator: List<Char>? = null,
     @SerialName("flavor_name") val flavorName: String? = null,
     @SerialName("tcgplayer_etched_id") val tcgplayerEtchedId: String? = null,
+    @SerialName("printed_text") val printedText: String? = null,
+    @SerialName("printed_type_line") val printedTypeLine: String? = null,
 )
 
 @Serializable
@@ -133,12 +135,12 @@ data class Legalities(
 
 @Serializable
 data class Prices(
-    val usd: String? = null,
-    @SerialName("usd_foil") val usdFoil: String? = null,
-    @SerialName("usd_etched") val usdEtched: String? = null,
-    val eur: String? = null,
-    @SerialName("eur_foil") val eurFoil: String? = null,
-    val tix: String? = null
+    val usd: Int? = null,
+    @SerialName("usd_foil") val usdFoil: Int? = null,
+    @SerialName("usd_etched") val usdEtched: Int? = null,
+    val eur: Int? = null,
+    @SerialName("eur_foil") val eurFoil: Int? = null,
+    val tix: Int? = null
 )
 
 @Serializable

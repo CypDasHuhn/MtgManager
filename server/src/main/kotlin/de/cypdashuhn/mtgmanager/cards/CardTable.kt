@@ -46,25 +46,24 @@ object CardEditionTable : IntIdTable("CardEdition") {
     val canFoil = bool("canFoil")
     val canNonFoil = bool("canNonFoil")
     val finishesId = integer("finishesId").references(FinishCombinations.combinationId)
-    val promo = bool("promo")
-    val reprint = bool("reprint")
-    val variation = bool("variation")
+    val isPromo = bool("isPromo")
+    val isReprint = bool("isReprint")
+    val isVariation = bool("isVariation")
     val collectorNumber = integer("collectorNumber")
-    val digital = bool("digital")
+    val isDigital = bool("isDigital")
     val rarity = reference("rarityId", RarityTable)
     val cardBackId = uuid("cardBackId") /* Find out what the heck this is */
     val illustrationId = uuid("illustrationId")
     val borderColor = reference("borderColorId", BorderColorTable)
     val frame = reference("frameId", FrameTable)
-    val fullart = bool("fullart")
-    val textless = bool("textless")
-    val booster = bool("booster")
-    val storySpotlight = bool("storySpotlight")
+    val isFullart = bool("isFullart")
+    val isTextless = bool("Textless")
+    val inBooster = bool("inBooster")
+    val isStorySpotlight = bool("isStorySpotlight")
     val promoTypesId = integer("promoTypesId").references(PromoTypeCombinationTable.combinationId)
     val securityStamp = reference("securityStampId", SecurityStampTable)
     val watermarkId = reference("watermarkId", WatermarkTable).nullable()
     val frameEffectId = integer("frameEffectId").references(FrameEffectCombinationsTable.combinationId).nullable()
-
 }
 
 object FrameEffectCombinationsTable : Table("FrameEffectCombinations") {
@@ -112,7 +111,7 @@ object CardArtistsTable : Table("CardArtists") {
     val artist = uuid("artistId").references(ArtistsTable.artistId)
 }
 
-object ArtistsTable : Table("Artists") {
+object ArtistsTable : IntIdTable("Artists") {
     val artist = varchar("artist", 50)
     val artistId = uuid("artistId")
 }
@@ -146,6 +145,7 @@ object LocalizedCardTable : IntIdTable("LocalizedCard") {
     val baseCard = reference("baseCardId", BaseCardTable) // Creates a foreign key to BaseCardTable
     val lang = reference("cardLanguage", CardLanguageTable)
     val printedName = varchar("name", 150)
+    val printedText = varchar("oracleText", 1000)
 }
 
 object CardParentTypeTable : IntIdTable("CardType") {
@@ -153,9 +153,9 @@ object CardParentTypeTable : IntIdTable("CardType") {
     val parentType = reference("parentType", ParentTypeTable)
 }
 
-object CardSubTypeTable : IntIdTable("CardSubType") {
+object CardChildTypeTable : IntIdTable("CardSubType") {
     val cardId = reference("cardId", LocalizedCardTable)
-    val subType = reference("subType", SubTypeTable)
+    val childType = reference("subType", ChildTypeTable)
 }
 
 object ParentTypeTable : IntIdTable("ParentType") {
@@ -163,7 +163,7 @@ object ParentTypeTable : IntIdTable("ParentType") {
     val type = varchar("type", 15)
 }
 
-object SubTypeTable : IntIdTable("SubType") {
+object ChildTypeTable : IntIdTable("SubType") {
     val lang = reference("lang", CardLanguageTable)
     val type = varchar("type", 31)
 }
@@ -181,6 +181,7 @@ object CombinedCardTable : IntIdTable("CombinedCard") {
     val cardmarketId = integer("cardmarketId")
     val flavorText = varchar("flavorText", 1000).nullable()
     val preview = reference("previewId", PreviewTable).nullable()
+    val imageStatus = reference("imageStatusId", ImageStatusTable)
 }
 
 object PreviewTable : IntIdTable("Preview") {
@@ -220,8 +221,8 @@ object ColorTable : Table("Color") {
 }
 
 object CardKeywordsTable : Table("CardKeywords") {
-    val localizedCardId = reference("localizedCardId", LocalizedCardTable)
-    val keywordId = reference("keywordId", KeywordTable)
+    val cardId = reference("cardId", BaseCardTable)
+    val keyword = reference("keywordId", KeywordTable)
 }
 
 object KeywordTable : IntIdTable("Keyword") {
